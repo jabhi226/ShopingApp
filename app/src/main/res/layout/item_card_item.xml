@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="clickEvents"
+            type="View.OnClickListener" />
+
+        <variable
+            name="cartItem"
+            type="com.example.shopingapp.modules.cart.models.CartItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:layout_marginVertical="@dimen/_4sdp"
+        android:background="@drawable/bg_grey_rounded">
+
+        <View
+            android:id="@+id/view_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_minus8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_minus8sdp"
+            android:background="@drawable/bg_grey_rounded_dark"
+            app:layout_constraintBottom_toBottomOf="@id/iv_item_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_delete"
+            app:layout_constraintStart_toStartOf="@id/iv_item_image"
+            app:layout_constraintTop_toTopOf="@id/iv_item_image" />
+
+        <ImageView
+            android:id="@+id/iv_item_image"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:src="@{cartItem.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/iv_cart_item_image" />
+
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{cartItem.name}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/iv_delete"
+            app:layout_constraintStart_toEndOf="@id/iv_item_image"
+            app:layout_constraintTop_toTopOf="@id/iv_item_image"
+            tools:text="Burberry T-shirt" />
+
+        <TextView
+            android:id="@+id/tv_mrp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{`\u20B9 ` + cartItem.sellingPrice}"
+            android:textColor="@color/mint_coffee"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_item_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_name"
+            tools:text="\u20B9 2500" />
+
+        <TextView
+            android:id="@+id/tv_size_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@string/size_tv"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_size"
+            app:layout_constraintStart_toStartOf="@id/tv_item_name"
+            app:layout_constraintTop_toTopOf="@id/tv_size" />
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{cartItem.size.name()}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintStart_toEndOf="@id/tv_size_tv"
+            app:layout_constraintTop_toBottomOf="@id/tv_mrp"
+            tools:text="Medium" />
+
+
+        <TextView
+            android:id="@+id/tv_qty_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@string/qty_tv"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_qty"
+            app:layout_constraintStart_toStartOf="@id/tv_item_name"
+            app:layout_constraintTop_toTopOf="@id/tv_qty" />
+
+        <TextView
+            android:id="@+id/tv_qty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{Integer.toString(cartItem.qty)}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintStart_toEndOf="@id/tv_qty_tv"
+            app:layout_constraintTop_toBottomOf="@id/tv_size"
+            tools:text="2" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_item_image" />
+
+        <TextView
+            android:id="@+id/store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:fontFamily="@font/work_sans"
+            android:letterSpacing="0.02"
+            android:text="@{cartItem.storeName}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintEnd_toStartOf="@id/buy_ok_verifed"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/view_bg"
+            app:layout_constraintTop_toBottomOf="@id/view_bg"
+            tools:text="Blueberry store" />
+
+        <TextView
+            android:id="@+id/buy_ok_verifed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:drawablePadding="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:text="@string/buyok_verifed"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_9ssp"
+            app:drawableStartCompat="@drawable/badge_check"
+            app:layout_constraintBottom_toBottomOf="@id/store_name"
+            app:layout_constraintEnd_toStartOf="@id/tv_ets"
+            app:layout_constraintStart_toEndOf="@id/store_name"
+            app:layout_constraintTop_toTopOf="@id/store_name" />
+
+
+        <TextView
+            android:id="@+id/tv_ets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/work_sans"
+            android:letterSpacing="0.02"
+            android:text="@{`ETA `+ cartItem.deliveryEtaMin +`-`+cartItem.deliveryEtaMax+` working days`}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintBottom_toBottomOf="@id/store_name"
+            app:layout_constraintEnd_toEndOf="@id/view_bg"
+            app:layout_constraintStart_toEndOf="@id/buy_ok_verifed"
+            app:layout_constraintTop_toTopOf="@id/store_name"
+            tools:text="ETA 5-7 working days" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="#66FEFEFE"
+            app:layout_constraintTop_toBottomOf="@id/store_name" />
+
+        <TextView
+            android:id="@+id/tv_apply_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:drawablePadding="@dimen/_8sdp"
+            android:fontFamily="@font/work_sans"
+            android:onClick="@{(v) -> clickEvents.onClick(v)}"
+            android:text="@string/apply_promo_code"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="@{cartItem.isShowRedeemCoupon ? View.GONE : View.VISIBLE}"
+            app:drawableStartCompat="@drawable/tag"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/view_bg"
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:hint="@string/promo_code"
+            android:textColorHint="@color/bg_edit_text"
+            android:visibility="@{cartItem.isShowRedeemCoupon ? View.VISIBLE : View.GONE}"
+            app:boxStrokeColor="@color/bg_edit_text"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="1dp"
+            app:endIconDrawable="@{cartItem.isShowRedeemCoupon ? @drawable/txt_remove : @drawable/txt_apply}"
+            app:endIconMode="custom"
+            app:endIconTint="@color/green_of_bhabua"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/bg_edit_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:fontFamily="@font/work_sans"
+                android:inputType="textCapCharacters"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_12sdp"
+                android:singleLine="true"
+                android:text="@{cartItem.couponText}"
+                android:textColor="@color/green_of_bhabua"
+                android:textSize="@dimen/_10ssp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

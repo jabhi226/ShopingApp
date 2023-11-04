@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ShopingApp</string>
+
+
+    <string name="your_shoppi">Your Shopping Cart</string>
+    <string name="cartitem_name"></string>
+    <string name="size_tv">Size:</string>
+    <string name="qty_tv">Qty:</string>
+    <string name="apply_promo_code">Apply promo code</string>
+    <string name="promo_code">Promo code</string>
+    <string name="buyok_verifed">buyok verifed</string>
+
+</resources>

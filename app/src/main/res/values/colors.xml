@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="nobal_black">#1F2326</color>
+    <color name="white_as_haven">#FFFEFE</color>
+    <color name="mint_coffee">#D0FFF0</color>
+    <color name="smoke_screen">#AFAFAF</color>
+    <color name="vibrant_green">#81FBB9</color>
+    <color name="green_of_bhabua">#BEFD41</color>
+    <color name="mossy_beach">#82A090</color>
+
+</resources>

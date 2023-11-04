@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cartCalculation"
+            type="com.example.shopingapp.modules.cart.models.CartCalculation" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:background="@drawable/bg_grey_rounded"
+        android:padding="@dimen/_12sdp">
+
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="Price"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="@{`₹` + cartCalculation.price}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@id/price_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="₹ 1299" />
+
+        <TextView
+            android:id="@+id/delivery_charges_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/work_sans"
+            android:text="Delivery Charge"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="@id/price_tv"
+            app:layout_constraintTop_toBottomOf="@id/price_tv" />
+
+
+        <TextView
+            android:id="@+id/delivery_charges"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="@{cartCalculation.deliveryCharge == 0 ? `Free` : `₹` + cartCalculation.deliveryCharge}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/delivery_charges_tv"
+            tools:text="₹ 1299" />
+
+        <TextView
+            android:id="@+id/coupon_discount_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/work_sans"
+            android:text="Coupon Discount"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="@id/delivery_charges_tv"
+            app:layout_constraintTop_toBottomOf="@id/delivery_charges_tv" />
+
+        <TextView
+            android:id="@+id/coupon_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="@{`- ₹ ` + cartCalculation.couponDiscount}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/coupon_discount_tv"
+            tools:text="₹ 1299" />
+
+        <TextView
+            android:id="@+id/tax_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/work_sans"
+            android:text="Tax"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="@id/coupon_discount_tv"
+            app:layout_constraintTop_toBottomOf="@id/coupon_discount_tv" />
+
+        <TextView
+            android:id="@+id/tax"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="@{`₹ ` + cartCalculation.tax}"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tax_tv"
+            tools:text="₹ 1299" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@color/smoke_screen"
+            app:layout_constraintTop_toBottomOf="@id/tax_tv" />
+
+        <TextView
+            android:id="@+id/total_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/work_sans"
+            android:text="Total"
+            android:textColor="@color/white_as_haven"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="@id/view_line"
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/work_sans"
+            android:text="@{`₹ ` + cartCalculation.total}"
+            android:textColor="@color/mint_coffee"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/total_tv"
+            tools:text="₹ 1299" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
