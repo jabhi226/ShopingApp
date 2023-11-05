@@ -22,7 +22,8 @@ import com.example.shopingapp.modules.cart.models.CartItem
 
 class CartAdapter(
     private val applyCoupon: (String, Int) -> Unit,
-    private val removeCoupon: (Int) -> Unit
+    private val removeCoupon: (Int) -> Unit,
+    private val deleteItem: (Cart) -> Unit,
 ) :
     ListAdapter<Cart, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Cart>() {
         override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
@@ -80,6 +81,8 @@ class CartAdapter(
                 if (it.id == binding.tvApplyCoupon.id) {
                     binding.tvApplyCoupon.visibility = View.GONE
                     binding.textInputLayout.visibility = View.VISIBLE
+                } else if (it.id == binding.ivDelete.id) {
+                    item?.let { it1 -> deleteItem(it1) }
                 }
             }
             binding.textInputLayout.setEndIconOnClickListener {

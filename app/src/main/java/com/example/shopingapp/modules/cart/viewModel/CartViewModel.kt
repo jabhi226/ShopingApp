@@ -32,6 +32,7 @@ class CartViewModel @Inject constructor(
         var mrp = 0
         var coupon = 0.0
         var total = 0.0
+//        var tax = 0.0
 
         val l = list?.mapIndexed { index, cart ->
             if (cart is CartItem) {
@@ -60,6 +61,35 @@ class CartViewModel @Inject constructor(
 
     private fun isRemoveCoupon(txt: String): Boolean {
         return txt.isNotEmpty()
+    }
+
+    fun deleteItem(deleteItem: Cart) {
+        var mrp = 0
+        var coupon = 0.0
+        var total = 0.0
+        _cartData.value =
+            _cartData.value?.filterIndexed { index, cart ->
+                if (cart is CartItem) {
+                    if (
+                        deleteItem is CartItem
+                        && deleteItem.id != cart.id
+                    ) {
+                        mrp += (cart.mrp * cart.qty)
+                        coupon += ((cart.mrp - cart.sellingPrice) * cart.qty)
+                        total += (cart.sellingPrice * cart.qty)
+                        true
+                    } else {
+                        false
+                    }
+                } else if (cart is CartCalculation) {
+                    cart.price = mrp.toDouble()
+                    cart.couponDiscount = coupon
+                    cart.total = total
+                    true
+                } else {
+                    true
+                }
+            } as ArrayList<Cart>
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.shopingapp.modules.cart.ui
+package com.example.shopingapp.modules.cart.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,10 +10,6 @@ import com.example.shopingapp.databinding.ActivityMainBinding
 import com.example.shopingapp.modules.cart.ui.adapter.CartAdapter
 import com.example.shopingapp.modules.cart.viewModel.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     private val adapter = CartAdapter({ txt, position ->
         currentItem = position
         viewModel.applyCoupon(txt, position)
-    }) { position ->
+    }, { position ->
         currentItem = position
         viewModel.applyCoupon("", position)
+    }) { deleteItem ->
+        viewModel.deleteItem(deleteItem)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeData() {
         viewModel.cartData.observe(this) {
-            adapter.submitList(it)
-            adapter.notifyItemChanged(currentItem)
-            adapter.notifyItemChanged(it.size - 2)
+            adapter.submitList(it) {
+                adapter.notifyItemChanged(currentItem)
+                adapter.notifyItemChanged(it.size - 2)
+            }
         }
     }
 }
