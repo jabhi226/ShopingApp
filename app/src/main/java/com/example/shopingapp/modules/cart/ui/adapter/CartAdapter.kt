@@ -1,5 +1,6 @@
 package com.example.shopingapp.modules.cart.ui.adapter
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +19,13 @@ import com.example.shopingapp.databinding.ItemCardProceedToCheckBinding
 import com.example.shopingapp.modules.cart.models.Cart
 import com.example.shopingapp.modules.cart.models.CartCalculation
 import com.example.shopingapp.modules.cart.models.CartItem
+import com.example.shopingapp.modules.utils.Utils
 
 
 class CartAdapter(
     private val applyCoupon: (String, Int) -> Unit,
     private val removeCoupon: (Int) -> Unit,
-    private val deleteItem: (Cart) -> Unit,
+    private val deleteItem: (Cart, Int) -> Unit,
 ) :
     ListAdapter<Cart, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Cart>() {
         override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
@@ -68,10 +70,8 @@ class CartAdapter(
         return getItem(position).viewType
     }
 
-    inner class CartHeaderViewHolder(val binding: ItemCardHeaderBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class CartHeaderViewHolder(binding: ItemCardHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     inner class CartItemViewHolder(private val binding: ItemCardItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -81,17 +81,23 @@ class CartAdapter(
                 if (it.id == binding.tvApplyCoupon.id) {
                     binding.tvApplyCoupon.visibility = View.GONE
                     binding.textInputLayout.visibility = View.VISIBLE
+                    binding.textInputLayout.editText?.let { it1 -> Utils.showKeyBoard(it1) }
                 } else if (it.id == binding.ivDelete.id) {
-                    item?.let { it1 -> deleteItem(it1) }
+                    item?.let { it1 -> deleteItem(it1, adapterPosition) }
                 }
             }
             binding.textInputLayout.setEndIconOnClickListener {
                 if (item?.isCouponApplied == true) {
                     removeCoupon(adapterPosition)
+                    binding.textInputLayout.editText?.let { it1 -> Utils.hideKeyBoard(it1) }
                 } else {
                     applyCoupon(binding.etCoupon.text.toString(), adapterPosition)
+                    binding.textInputLayout.editText?.let { it1 -> Utils.hideKeyBoard(it1) }
                 }
             }
+
+            binding.tvMrpPreDiscount.paintFlags =
+                binding.tvMrpPreDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 
@@ -103,10 +109,8 @@ class CartAdapter(
 
     }
 
-    inner class CartProceedViewHolder(private val binding: ItemCardProceedToCheckBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class CartProceedViewHolder(binding: ItemCardProceedToCheckBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {

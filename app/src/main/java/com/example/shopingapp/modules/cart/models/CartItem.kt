@@ -28,4 +28,21 @@ data class CartItem(
         Medium,
         Large
     }
+
+    fun getMrpAmount(): Int {
+        return mrp * qty
+    }
+
+    fun getCouponAmount(): Int {
+        return (mrp - sellingPrice) * qty
+    }
+
+    fun getTotalAmount(): Int {
+        return (sellingPrice * qty)
+    }
+
+    fun getTaxAmount(): Int {
+        return ((sellingPrice * 18 / 100) * qty)
+    }
+
 }

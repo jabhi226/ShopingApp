@@ -79,6 +79,38 @@
             tools:text="\u20B9 2500" />
 
         <TextView
+            android:id="@+id/tv_mrp_pre_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{`\u20B9 ` + cartItem.mrp}"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_9ssp"
+            android:visibility="@{(cartItem.mrp == cartItem.sellingPrice) ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_mrp"
+            app:layout_constraintStart_toEndOf="@id/tv_mrp"
+            app:layout_constraintTop_toTopOf="@id/tv_mrp"
+            tools:text="\u20B9 2500" />
+
+        <TextView
+            android:id="@+id/tv_discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:fontFamily="@font/work_sans"
+            android:maxLines="2"
+            android:text="@{`(` + (int)(((((double)cartItem.mrp - (double)cartItem.sellingPrice)/(double)cartItem.mrp)) * 100) + `% Off` + `)`}"
+            android:textColor="@color/smoke_screen"
+            android:textSize="@dimen/_11ssp"
+            android:visibility="@{(cartItem.mrp == cartItem.sellingPrice) ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_mrp"
+            app:layout_constraintStart_toEndOf="@id/tv_mrp_pre_discount"
+            app:layout_constraintTop_toTopOf="@id/tv_mrp"
+            tools:text="\u20B9 2500" />
+
+        <TextView
             android:id="@+id/tv_size_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

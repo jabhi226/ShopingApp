@@ -18,7 +18,7 @@ class CartRepositoryImpl : CartRepository {
         list.add(CartHeader(CartAdapter.CART_HEADER))
         var price = 0
         for (i in 0 until 3) {
-            val mrp = 2500
+            val mrp = (i + 1) * 1000
             list.add(
                 CartItem(
                     CartAdapter.CART_ITEM,
@@ -37,8 +37,8 @@ class CartRepositoryImpl : CartRepository {
                 price.toDouble(),
                 0.0,
                 0.0,
-                (price.toDouble() * 18 / 100) * 2,
-                (price + (price.toDouble() * 18 / 100)) * 2
+                (price.toDouble() * 18 / 100),
+                (price + (price.toDouble() * 18 / 100))
             )
         )
         list.add(

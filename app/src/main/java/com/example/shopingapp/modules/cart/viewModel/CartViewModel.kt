@@ -7,7 +7,6 @@ import com.example.shopingapp.modules.cart.models.Cart
 import com.example.shopingapp.modules.cart.models.CartCalculation
 import com.example.shopingapp.modules.cart.models.CartItem
 import com.example.shopingapp.modules.cart.repository.CartRepository
-import com.example.shopingapp.modules.cart.ui.adapter.CartAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,6 +17,11 @@ class CartViewModel @Inject constructor(
 
     private val _cartData = MutableLiveData<ArrayList<Cart>>()
     val cartData = _cartData as LiveData<ArrayList<Cart>>
+
+    private var deletedItem: Pair<CartItem, Int>? = null
+
+    var currentItem = 0
+    var totalCount = 0
 
     init {
         getCardData()
@@ -32,7 +36,7 @@ class CartViewModel @Inject constructor(
         var mrp = 0
         var coupon = 0.0
         var total = 0.0
-//        var tax = 0.0
+        var tax = 0.0
 
         val l = list?.mapIndexed { index, cart ->
             if (cart is CartItem) {
@@ -46,50 +50,79 @@ class CartViewModel @Inject constructor(
                         cart.mrp
                     }
                 }
-                mrp += (cart.mrp * cart.qty)
-                coupon += ((cart.mrp - cart.sellingPrice) * cart.qty)
-                total += (cart.sellingPrice * cart.qty)
+                mrp += cart.getMrpAmount()
+                coupon += cart.getCouponAmount()
+                total += cart.getTotalAmount()
+                tax += cart.getTaxAmount()
             } else if (cart is CartCalculation) {
                 cart.price = mrp.toDouble()
                 cart.couponDiscount = coupon
-                cart.total = total
+                cart.tax = tax
+                cart.total = total + tax
             }
             cart
         } as ArrayList<Cart>
         _cartData.value = l
+        currentItem = position
+        totalCount = _cartData.value?.size ?: 0
     }
 
     private fun isRemoveCoupon(txt: String): Boolean {
         return txt.isNotEmpty()
     }
 
-    fun deleteItem(deleteItem: Cart) {
+    fun deleteItem(deleteItem: Cart, position: Int) {
+        totalCount = _cartData.value?.size ?: 0
         var mrp = 0
         var coupon = 0.0
         var total = 0.0
-        _cartData.value =
-            _cartData.value?.filterIndexed { index, cart ->
-                if (cart is CartItem) {
-                    if (
-                        deleteItem is CartItem
-                        && deleteItem.id != cart.id
-                    ) {
-                        mrp += (cart.mrp * cart.qty)
-                        coupon += ((cart.mrp - cart.sellingPrice) * cart.qty)
-                        total += (cart.sellingPrice * cart.qty)
-                        true
-                    } else {
-                        false
-                    }
-                } else if (cart is CartCalculation) {
-                    cart.price = mrp.toDouble()
-                    cart.couponDiscount = coupon
-                    cart.total = total
+        var tax = 0.0
+        _cartData.value = _cartData.value?.filterIndexed { index, cart ->
+            if (cart is CartItem) {
+                if (
+                    deleteItem is CartItem
+                    && deleteItem.id != cart.id
+                ) {
+                    mrp += cart.getMrpAmount()
+                    coupon += cart.getCouponAmount()
+                    total += cart.getTotalAmount()
+                    tax += cart.getTaxAmount()
                     true
                 } else {
-                    true
+                    deletedItem = Pair(cart, index)
+                    false
                 }
-            } as ArrayList<Cart>
+            } else if (cart is CartCalculation) {
+                cart.price = mrp.toDouble()
+                cart.couponDiscount = coupon
+                cart.tax = tax
+                cart.total = total + tax
+                true
+            } else {
+                true
+            }
+        } as ArrayList<Cart>
+        currentItem = deletedItem?.second ?: 0
     }
+
+    fun undoDeletedItem() {
+        totalCount = _cartData.value?.size ?: 0
+
+        _cartData.value = deletedItem?.let {
+            val l = _cartData.value
+            l?.add(it.second, it.first)
+            l?.filterIndexed { index, cart ->
+                if (cart is CartCalculation) {
+                    cart.price += it.first.getMrpAmount()
+                    cart.couponDiscount += it.first.getCouponAmount()
+                    cart.tax += it.first.getTaxAmount()
+                    cart.total += it.first.getTotalAmount() + it.first.getTaxAmount()
+                }
+                true
+            } as ArrayList<Cart>
+        }
+        currentItem = deletedItem?.second ?: 0
+    }
+
 
 }
